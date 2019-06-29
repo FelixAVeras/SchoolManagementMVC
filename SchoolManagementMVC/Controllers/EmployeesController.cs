@@ -1,0 +1,188 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using SchoolManagementMVC.Models;
+
+namespace SchoolManagementMVC.Controllers
+{
+    public class EmployeesController : Controller
+    {
+        private SchoolManagementMVCContext db = new SchoolManagementMVCContext();
+
+        // GET: Employees
+        public ActionResult Index()
+        {
+            var employees = db.Employees.Include(e => e.DocumentType);
+            return View(employees.ToList());
+        }
+
+        // GET: Employees/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(employee);
+        }
+
+        // GET: Employees/Create
+        public ActionResult Create()
+        {
+            ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description");
+            return View();
+        }
+
+        // POST: Employees/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(EmployeeView employeeView)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employeeView.DocumentTypeID);
+                return View(employeeView);
+            }
+
+            string path = string.Empty;
+            string pic = string.Empty;
+
+            if(employeeView.ImageUrl != null)
+            {
+                pic = Path.GetFileName(employeeView.ImageUrl.FileName);
+                path = Path.Combine(Server.MapPath("~/Content/Images/Employees"), pic);
+                employeeView.ImageUrl.SaveAs(path);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    employeeView.ImageUrl.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+            }
+
+            var employee = new Employee
+            {
+                Address = employeeView.Address,
+                BirthDate = employeeView.BirthDate,
+                DocumentTypeID = employeeView.DocumentTypeID,
+                DocumentType = employeeView.DocumentType,
+                DocumentNumber = employeeView.DocumentNumber,
+                Email = employeeView.Email,
+                EndTime = employeeView.EndTime,
+                EntryDate = employeeView.EntryDate,
+                FirstName = employeeView.FirstName,
+                ImageUrl = pic == string.Empty ? string.Empty: string.Format("~/Content/Images/Employees/{0}", pic),
+                LastName = employeeView.LastName,
+                Phone = employeeView.Phone,
+                PositionID = employeeView.PositionID,
+                Positions = employeeView.Positions,
+                StartTime = employeeView.StartTime,
+                StateID = employeeView.StateID,
+                State = employeeView.State
+            };
+
+            db.Employees.Add(employee);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                if(ex.InnerException != null && ex.InnerException.InnerException != null)
+                {
+                    ViewBag.Error = ex.Message;
+                }
+
+                ViewBag.Error = ex.Message;
+
+                return View(employeeView);
+            }
+
+            return RedirectToAction("Index");
+
+            ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
+            return View(employee);
+        }
+
+        // GET: Employees/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
+            return View(employee);
+        }
+
+        // POST: Employees/Edit/5
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "EmployeeID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,salary,ImageUrl,DocumentTypeID,DocumentNumber")] Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(employee).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
+            return View(employee);
+        }
+
+        // GET: Employees/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(employee);
+        }
+
+        // POST: Employees/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Employee employee = db.Employees.Find(id);
+            db.Employees.Remove(employee);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}
