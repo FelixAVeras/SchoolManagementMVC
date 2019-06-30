@@ -18,7 +18,7 @@ namespace SchoolManagementMVC.Controllers
         // GET: Employees
         public ActionResult Index()
         {
-            var employees = db.Employees.Include(e => e.DocumentType);
+            var employees = db.Employees.Include(e => e.DocumentType).Include(e => e.Positions).Include(e => e.State);
             return View(employees.ToList());
         }
 
@@ -41,6 +41,8 @@ namespace SchoolManagementMVC.Controllers
         public ActionResult Create()
         {
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description");
+            ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description");
+            ViewBag.StateID = new SelectList(db.States, "StateID", "Description");
             return View();
         }
 
@@ -53,14 +55,21 @@ namespace SchoolManagementMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
+                //db.Employees.Add(employee);
+                //db.SaveChanges();
+                //return RedirectToAction("Index");
                 ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employeeView.DocumentTypeID);
+                ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", employeeView.PositionID);
+                ViewBag.StateID = new SelectList(db.States, "StateID", "Description", employeeView.StateID);
+                //return View(employee);
+
                 return View(employeeView);
             }
 
             string path = string.Empty;
             string pic = string.Empty;
 
-            if(employeeView.ImageUrl != null)
+            if (employeeView.ImageUrl != null)
             {
                 pic = Path.GetFileName(employeeView.ImageUrl.FileName);
                 path = Path.Combine(Server.MapPath("~/Content/Images/Employees"), pic);
@@ -83,11 +92,12 @@ namespace SchoolManagementMVC.Controllers
                 EndTime = employeeView.EndTime,
                 EntryDate = employeeView.EntryDate,
                 FirstName = employeeView.FirstName,
-                ImageUrl = pic == string.Empty ? string.Empty: string.Format("~/Content/Images/Employees/{0}", pic),
+                ImageUrl = pic == string.Empty ? string.Empty : string.Format("~/Content/Images/Employees/{0}", pic),
                 LastName = employeeView.LastName,
                 Phone = employeeView.Phone,
                 PositionID = employeeView.PositionID,
                 Positions = employeeView.Positions,
+                Remarks = employeeView.Remarks,
                 StartTime = employeeView.StartTime,
                 StateID = employeeView.StateID,
                 State = employeeView.State
@@ -99,9 +109,9 @@ namespace SchoolManagementMVC.Controllers
             {
                 db.SaveChanges();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if(ex.InnerException != null && ex.InnerException.InnerException != null)
+                if (ex.InnerException != null && ex.InnerException.InnerException != null)
                 {
                     ViewBag.Error = ex.Message;
                 }
@@ -113,8 +123,6 @@ namespace SchoolManagementMVC.Controllers
 
             return RedirectToAction("Index");
 
-            ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
-            return View(employee);
         }
 
         // GET: Employees/Edit/5
@@ -130,6 +138,8 @@ namespace SchoolManagementMVC.Controllers
                 return HttpNotFound();
             }
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
+            ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", employee.PositionID);
+            ViewBag.StateID = new SelectList(db.States, "StateID", "Description", employee.StateID);
             return View(employee);
         }
 
@@ -138,7 +148,7 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EmployeeID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,salary,ImageUrl,DocumentTypeID,DocumentNumber")] Employee employee)
+        public ActionResult Edit([Bind(Include = "EmployeeID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,salary,ImageUrl,DocumentTypeID,DocumentNumber,StateID,PositionID,Remarks")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -147,6 +157,8 @@ namespace SchoolManagementMVC.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
+            ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", employee.PositionID);
+            ViewBag.StateID = new SelectList(db.States, "StateID", "Description", employee.StateID);
             return View(employee);
         }
 

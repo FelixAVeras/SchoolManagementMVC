@@ -1,13 +1,13 @@
 ﻿@model SchoolManagementMVC.Models.Employee
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles";
 }
 
-<h2>Details</h2>
+    <h2>Detalles de Empleado</h2>
 
 <div>
-    <h4>Employee</h4>
+    <h4>Empleado - @Html.DisplayNameFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -16,6 +16,22 @@
 
         <dd>
             @Html.DisplayFor(model => model.DocumentType.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Positions.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Positions.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State.Description)
         </dd>
 
         <dt>
@@ -112,6 +128,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.DocumentNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
         </dd>
 
     </dl>
