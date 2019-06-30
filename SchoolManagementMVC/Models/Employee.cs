@@ -56,7 +56,7 @@ namespace SchoolManagementMVC.Models
 
         [Display(Name = "Salario/Sueldo")]
         [DisplayFormat(DataFormatString = "{0:C}")]
-        public double salary { get; set; }
+        public double Salary { get; set; }
 
         [Display(Name = "Foto de Perfil")]
         [DataType(DataType.ImageUrl)]

@@ -53,7 +53,7 @@ namespace SchoolManagementMVC.Models
 
         [Display(Name = "Salario/Sueldo")]
         [DisplayFormat(DataFormatString = "{0:C}")]
-        public double salary { get; set; }
+        public double Salary { get; set; }
 
         public HttpPostedFileBase ImageUrl { get; set; }
 
