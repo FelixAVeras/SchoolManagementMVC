@@ -6,9 +6,15 @@ using System.Web;
 
 namespace SchoolManagementMVC.Models
 {
-    public class EmployeeView
+    public class Student
     {
-        public int EmployeeID { get; set; }
+        //public Student()
+        //{
+        //    this.Parents = new HashSet<Parent>();
+        //}
+
+        [Key]
+        public int StudentID { get; set; }
 
         [Required]
         [Display(Name = "Nombre(s)")]
@@ -45,35 +51,38 @@ namespace SchoolManagementMVC.Models
 
         [Required]
         [Display(Name = "Hora de Inicio")]
-        [DisplayFormat(DataFormatString = "{0:hh:mm tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:t}", ApplyFormatInEditMode = true)]
         public DateTime StartTime { get; set; }
 
         [Required]
         [Display(Name = "Hora de Salida")]
-        [DisplayFormat(DataFormatString = "{0:hh:mm tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:t}", ApplyFormatInEditMode = true)]
         public DateTime EndTime { get; set; }
 
-        [Display(Name = "Salario/Sueldo")]
-        [DisplayFormat(DataFormatString = "{0:C}")]
-        public double Salary { get; set; }
-
-        public HttpPostedFileBase ImageUrl { get; set; }
+        [Display(Name = "Foto de Perfil")]
+        [DataType(DataType.ImageUrl)]
+        public string ImageUrl { get; set; }
 
         public int DocumentTypeID { get; set; }
-        public virtual DocumentType DocumentType { get; set; }
 
-        [Required]
         [Display(Name = "Número de Documento")]
         public string DocumentNumber { get; set; }
 
         public int StateID { get; set; }
-        public virtual State State { get; set; }
 
         public int PositionID { get; set; }
-        public virtual Position Positions { get; set; }
+
+        public int GenderID { get; set; }
 
         [Display(Name = "Comentarios")]
-        [MaxLength(160, ErrorMessage = "El campo {0} Permite solo {1} caácteres como máximo.")]
+        [StringLength(160, ErrorMessage = "El campo {0} Permite solo {1} caácteres como máximo.")]
         public string Remarks { get; set; }
+
+
+        public virtual DocumentType DocumentType { get; set; }
+        public virtual Position Positions { get; set; }
+        public virtual ICollection<Parent> Parents { get; set; }
+        public virtual Gender Gender { get; set; }
+        public virtual State State { get; set; }
     }
 }

@@ -1,13 +1,13 @@
-﻿@model SchoolManagementMVC.Models.Employee
+﻿@model SchoolManagementMVC.Models.Student
 
 @{
-    ViewBag.Title = "Detalles";
+    ViewBag.Title = "Details";
 }
 
-    <h2>Detalles de Empleado</h2>
+<h2>Details</h2>
 
 <div>
-    <h4>Empleado - @Html.DisplayNameFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
+    <h4>Student</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -16,6 +16,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.DocumentType.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender.Description)
         </dd>
 
         <dt>
@@ -107,22 +115,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Salary)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Salary)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.ImageUrl)
         </dt>
 
         <dd>
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Url.Content(Model.ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.FirstName)" class="img-responsive img-rounded profilePic" />
-            }
+            @Html.DisplayFor(model => model.ImageUrl)
         </dd>
 
         <dt>
@@ -144,6 +141,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EmployeeID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StudentID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

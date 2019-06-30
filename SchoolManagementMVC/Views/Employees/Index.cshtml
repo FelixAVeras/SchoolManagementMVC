@@ -108,7 +108,10 @@
                         @Html.DisplayFor(modelItem => item.Salary)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ImageUrl)
+                        @if(!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@Url.Content(item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.FirstName)" class="img-responsive img-rounded profilePic" />
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DocumentNumber)

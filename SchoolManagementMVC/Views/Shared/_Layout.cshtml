@@ -25,6 +25,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
+                    <li>@Html.ActionLink("Padres/Tutores", "Index", "Parents")</li>
                     <li>@Html.ActionLink("Empleados", "Index", "Employees")</li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Acciones <span class="caret"></span></a>
@@ -33,20 +35,21 @@
                             <li>@Html.ActionLink("Posición", "Index", "Positions")</li>
                             <li>@Html.ActionLink("Estados", "Index", "States")</li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li>@Html.ActionLink("Cursos", "Index", "Courses")</li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
+                            <li>@Html.ActionLink("Genero", "Index", "Genders")</li>
                         </ul>
                     </li>
+                    <li><a href="#">Finanzas</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content containerWhite">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year - IF Software Development</p>
         </footer>
     </div>
 

@@ -32,5 +32,13 @@ namespace SchoolManagementMVC.Models
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<SchoolManagementMVC.Models.Gender> Genders { get; set; }
+
+        public System.Data.Entity.DbSet<SchoolManagementMVC.Models.Student> Students { get; set; }
+
+        public System.Data.Entity.DbSet<SchoolManagementMVC.Models.Parent> Parents { get; set; }
+
+        public System.Data.Entity.DbSet<SchoolManagementMVC.Models.Course> Courses { get; set; }
     }
 }

@@ -6,9 +6,15 @@ using System.Web;
 
 namespace SchoolManagementMVC.Models
 {
-    public class EmployeeView
+    public class Parent
     {
-        public int EmployeeID { get; set; }
+        //public Parent()
+        //{
+        //    this.Student = new HashSet<Student>();
+        //}
+
+        [Key]
+        public int ParentID { get; set; }
 
         [Required]
         [Display(Name = "Nombre(s)")]
@@ -38,42 +44,19 @@ namespace SchoolManagementMVC.Models
         [MaxLength(20, ErrorMessage = "El campo {0} Permite solo {1} caácteres como máximo.")]
         public string Email { get; set; }
 
-        [Display(Name = "Fecha de Entrada")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime EntryDate { get; set; }
-
-        [Required]
-        [Display(Name = "Hora de Inicio")]
-        [DisplayFormat(DataFormatString = "{0:hh:mm tt}", ApplyFormatInEditMode = true)]
-        public DateTime StartTime { get; set; }
-
-        [Required]
-        [Display(Name = "Hora de Salida")]
-        [DisplayFormat(DataFormatString = "{0:hh:mm tt}", ApplyFormatInEditMode = true)]
-        public DateTime EndTime { get; set; }
-
-        [Display(Name = "Salario/Sueldo")]
-        [DisplayFormat(DataFormatString = "{0:C}")]
-        public double Salary { get; set; }
-
-        public HttpPostedFileBase ImageUrl { get; set; }
-
         public int DocumentTypeID { get; set; }
-        public virtual DocumentType DocumentType { get; set; }
 
         [Required]
         [Display(Name = "Número de Documento")]
         public string DocumentNumber { get; set; }
 
-        public int StateID { get; set; }
-        public virtual State State { get; set; }
+        [Display(Name = "Genero")]
+        public int GenderID { get; set; }
+        
 
-        public int PositionID { get; set; }
-        public virtual Position Positions { get; set; }
 
-        [Display(Name = "Comentarios")]
-        [MaxLength(160, ErrorMessage = "El campo {0} Permite solo {1} caácteres como máximo.")]
-        public string Remarks { get; set; }
+        public virtual DocumentType DocumentType { get; set; }
+        public virtual Student Student { get; set; }
+        public virtual Gender Gender { get; set; }
     }
 }
