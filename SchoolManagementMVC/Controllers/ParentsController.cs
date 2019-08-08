@@ -17,7 +17,7 @@ namespace SchoolManagementMVC.Controllers
         // GET: Parents
         public ActionResult Index()
         {
-            var parents = db.Parents.Include(p => p.DocumentType).Include(p => p.Gender);
+            var parents = db.Parents.Include(p => p.DocumentType).Include(p => p.Gender).Include(p => p.Student);
             return View(parents.ToList());
         }
 
@@ -41,6 +41,7 @@ namespace SchoolManagementMVC.Controllers
         {
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description");
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description");
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FullName");
             return View();
         }
 
@@ -49,7 +50,7 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ParentID,FirstName,LastName,BirthDate,Address,Phone,Email,DocumentTypeID,DocumentNumber,GenderID")] Parent parent)
+        public ActionResult Create([Bind(Include = "ParentID,FirstName,LastName,BirthDate,Address,Phone,Email,DocumentTypeID,DocumentNumber,GenderID,StudentID")] Parent parent)
         {
             if (ModelState.IsValid)
             {
@@ -60,6 +61,7 @@ namespace SchoolManagementMVC.Controllers
 
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", parent.DocumentTypeID);
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", parent.GenderID);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", parent.StudentID);
             return View(parent);
         }
 
@@ -77,6 +79,7 @@ namespace SchoolManagementMVC.Controllers
             }
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", parent.DocumentTypeID);
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", parent.GenderID);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", parent.StudentID);
             return View(parent);
         }
 
@@ -85,7 +88,7 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ParentID,FirstName,LastName,BirthDate,Address,Phone,Email,DocumentTypeID,DocumentNumber,GenderID")] Parent parent)
+        public ActionResult Edit([Bind(Include = "ParentID,FirstName,LastName,BirthDate,Address,Phone,Email,DocumentTypeID,DocumentNumber,GenderID,StudentID")] Parent parent)
         {
             if (ModelState.IsValid)
             {
@@ -95,6 +98,7 @@ namespace SchoolManagementMVC.Controllers
             }
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", parent.DocumentTypeID);
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", parent.GenderID);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", parent.StudentID);
             return View(parent);
         }
 

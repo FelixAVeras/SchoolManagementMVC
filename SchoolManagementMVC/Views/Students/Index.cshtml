@@ -12,9 +12,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DocumentType.Description)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Gender.Description)
         </th>
         <th>
@@ -54,19 +51,16 @@
             @Html.DisplayNameFor(model => model.ImageUrl)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DocumentNumber)
+            @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Remarks)
+            @Html.DisplayNameFor(model => model.AttachedFiles)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DocumentType.Description)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Gender.Description)
         </td>
@@ -107,10 +101,10 @@
             @Html.DisplayFor(modelItem => item.ImageUrl)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DocumentNumber)
+            @Html.DisplayFor(modelItem => item.Remarks)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
+            @Html.DisplayFor(modelItem => item.AttachedFiles)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.StudentID }) |

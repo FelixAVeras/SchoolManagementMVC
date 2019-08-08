@@ -55,13 +55,9 @@ namespace SchoolManagementMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //db.Employees.Add(employee);
-                //db.SaveChanges();
-                //return RedirectToAction("Index");
                 ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employeeView.DocumentTypeID);
                 ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", employeeView.PositionID);
                 ViewBag.StateID = new SelectList(db.States, "StateID", "Description", employeeView.StateID);
-                //return View(employee);
 
                 return View(employeeView);
             }
@@ -133,11 +129,13 @@ namespace SchoolManagementMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+
+            var employee = db.Employees.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", employee.PositionID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", employee.StateID);

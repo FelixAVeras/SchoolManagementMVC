@@ -8,11 +8,6 @@ namespace SchoolManagementMVC.Models
 {
     public class Parent
     {
-        //public Parent()
-        //{
-        //    this.Student = new HashSet<Student>();
-        //}
-
         [Key]
         public int ParentID { get; set; }
 
@@ -44,14 +39,17 @@ namespace SchoolManagementMVC.Models
         [MaxLength(20, ErrorMessage = "El campo {0} Permite solo {1} caácteres como máximo.")]
         public string Email { get; set; }
 
-        public int DocumentTypeID { get; set; }
+        public int? DocumentTypeID { get; set; }
 
         [Required]
         [Display(Name = "Número de Documento")]
         public string DocumentNumber { get; set; }
 
         [Display(Name = "Genero")]
-        public int GenderID { get; set; }
+        public int? GenderID { get; set; }
+
+        [Display(Name = "Madre, padre o tutor de:")]
+        public int? StudentID { get; set; }
         
 
 

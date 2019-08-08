@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -25,6 +26,9 @@ namespace SchoolManagementMVC.Models
         [Display(Name = "Apellido(s)")]
         [StringLength(20, ErrorMessage = "El campo {0} Permite solo {1}  y {2}.", MinimumLength = 2)]
         public string LastName { get; set; }
+
+        [NotMapped]
+        public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
         [Required]
         [DataType(DataType.Date)]
@@ -63,25 +67,28 @@ namespace SchoolManagementMVC.Models
         [DataType(DataType.ImageUrl)]
         public string ImageUrl { get; set; }
 
-        public int DocumentTypeID { get; set; }
+        //public int DocumentTypeID { get; set; }
 
-        [Display(Name = "Número de Documento")]
-        public string DocumentNumber { get; set; }
+        //[Display(Name = "Número de Documento")]
+        //public string DocumentNumber { get; set; }
 
-        public int StateID { get; set; }
+        public int? StateID { get; set; }
 
-        public int PositionID { get; set; }
+        public int? PositionID { get; set; }
 
-        public int GenderID { get; set; }
+        public int? GenderID { get; set; }
 
         [Display(Name = "Comentarios")]
         [StringLength(160, ErrorMessage = "El campo {0} Permite solo {1} caácteres como máximo.")]
         public string Remarks { get; set; }
 
+        [Required]
+        [Display(Name = "Documento(s) Adjuntos")]
+        public string AttachedFiles { get; set; }
 
-        public virtual DocumentType DocumentType { get; set; }
+        //public virtual DocumentType DocumentType { get; set; }
         public virtual Position Positions { get; set; }
-        public virtual ICollection<Parent> Parents { get; set; }
+
         public virtual Gender Gender { get; set; }
         public virtual State State { get; set; }
     }

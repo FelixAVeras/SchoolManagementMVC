@@ -16,6 +16,7 @@ namespace SchoolManagementMVC.Models
         public string Description { get; set; }
 
         public virtual ICollection<Employee> Employees { get; set; }
+        //public virtual ICollection<Student> Students { get; set; }
         public virtual ICollection<Parent> Parents { get; set; }
     }
 }

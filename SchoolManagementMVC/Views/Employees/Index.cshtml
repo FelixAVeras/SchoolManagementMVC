@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<SchoolManagementMVC.Models.Employee>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Empleados";
 }
 
-<h2>Index</h2>
+    <h2>Empleados</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -14,13 +14,7 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.DocumentType.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Positions.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.State.Description)
+                    @Html.DisplayNameFor(model => model.ImageUrl)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.FirstName)
@@ -28,35 +22,41 @@
                 <th>
                     @Html.DisplayNameFor(model => model.LastName)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BirthDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address)
-                </th>
+                @*<th>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </th>*@
+                @*<th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Phone)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Email)
                 </th>
+                @*<th>
+            @Html.DisplayNameFor(model => model.EntryDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Salary)
+        </th>*@
+                @*<th>
+            @Html.DisplayNameFor(model => model.DocumentNumber)
+        </th>*@
+                @*<th>
+                    @Html.DisplayNameFor(model => model.DocumentType.Description)
+                </th>*@
                 <th>
-                    @Html.DisplayNameFor(model => model.EntryDate)
+                    @Html.DisplayNameFor(model => model.Positions.Description)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.StartTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EndTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Salary)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImageUrl)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DocumentNumber)
+                    @Html.DisplayNameFor(model => model.State.Description)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Remarks)
@@ -69,13 +69,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DocumentType.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Positions.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.State.Description)
+                        @if(!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@Url.Content(item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.FirstName)" class="img-responsive img-rounded profilePic" />
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
@@ -83,19 +80,19 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.LastName)
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.BirthDate)
-                    </td>
-                    <td>
+                    </td>*@
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.Address)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.Phone)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.EntryDate)
                     </td>
                     <td>
@@ -108,13 +105,16 @@
                         @Html.DisplayFor(modelItem => item.Salary)
                     </td>
                     <td>
-                        @if(!string.IsNullOrEmpty(item.ImageUrl))
-                        {
-                            <img src="@Url.Content(item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.FirstName)" class="img-responsive img-rounded profilePic" />
-                        }
+                        @Html.DisplayFor(modelItem => item.DocumentNumber)
+                    </td>*@
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.DocumentType.Description)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Positions.Description)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DocumentNumber)
+                        @Html.DisplayFor(modelItem => item.State.Description)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Remarks)

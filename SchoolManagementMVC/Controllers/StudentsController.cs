@@ -17,7 +17,7 @@ namespace SchoolManagementMVC.Controllers
         // GET: Students
         public ActionResult Index()
         {
-            var students = db.Students.Include(s => s.DocumentType).Include(s => s.Gender).Include(s => s.Positions).Include(s => s.State);
+            var students = db.Students.Include(s => s.Gender).Include(s => s.Positions).Include(s => s.State);
             return View(students.ToList());
         }
 
@@ -39,7 +39,6 @@ namespace SchoolManagementMVC.Controllers
         // GET: Students/Create
         public ActionResult Create()
         {
-            ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description");
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description");
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description");
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description");
@@ -51,7 +50,7 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,ImageUrl,DocumentTypeID,DocumentNumber,StateID,PositionID,GenderID,Remarks")] Student student)
+        public ActionResult Create([Bind(Include = "StudentID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,ImageUrl,StateID,PositionID,GenderID,Remarks,AttachedFiles")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +59,6 @@ namespace SchoolManagementMVC.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", student.DocumentTypeID);
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", student.GenderID);
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", student.PositionID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", student.StateID);
@@ -79,7 +77,6 @@ namespace SchoolManagementMVC.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", student.DocumentTypeID);
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", student.GenderID);
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", student.PositionID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", student.StateID);
@@ -91,7 +88,7 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudentID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,ImageUrl,DocumentTypeID,DocumentNumber,StateID,PositionID,GenderID,Remarks")] Student student)
+        public ActionResult Edit([Bind(Include = "StudentID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,ImageUrl,StateID,PositionID,GenderID,Remarks,AttachedFiles")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +96,6 @@ namespace SchoolManagementMVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", student.DocumentTypeID);
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", student.GenderID);
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", student.PositionID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", student.StateID);
