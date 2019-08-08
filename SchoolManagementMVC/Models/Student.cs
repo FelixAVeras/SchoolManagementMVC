@@ -82,9 +82,9 @@ namespace SchoolManagementMVC.Models
         [StringLength(160, ErrorMessage = "El campo {0} Permite solo {1} caácteres como máximo.")]
         public string Remarks { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Documento(s) Adjuntos")]
-        public string AttachedFiles { get; set; }
+        public string[] AttachedFiles { get; set; }
 
         //public virtual DocumentType DocumentType { get; set; }
         public virtual Position Positions { get; set; }
