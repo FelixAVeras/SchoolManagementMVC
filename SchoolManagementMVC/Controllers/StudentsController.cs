@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -50,19 +51,75 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,ImageUrl,StateID,PositionID,GenderID,Remarks,AttachedFiles")] Student student)
+        public ActionResult Create(StudentView studentView)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Students.Add(student);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //db.Students.Add(student);
+                //db.SaveChanges();   
+                //return RedirectToAction("Index");
+
+                ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", studentView.GenderID);
+                ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", studentView.PositionID);
+                ViewBag.StateID = new SelectList(db.States, "StateID", "Description", studentView.StateID);
+
+                return View(studentView);
             }
 
-            ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", student.GenderID);
-            ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", student.PositionID);
-            ViewBag.StateID = new SelectList(db.States, "StateID", "Description", student.StateID);
-            return View(student);
+            string path = string.Empty;
+            string pic = string.Empty;
+
+            if (studentView.ImageUrl != null)
+            {
+                pic = Path.GetFileName(studentView.ImageUrl.FileName);
+                path = Path.Combine(Server.MapPath("~/Content/Images/Students"), pic);
+                studentView.ImageUrl.SaveAs(path);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    studentView.ImageUrl.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+            }
+
+            var student = new Student
+            {
+                Address = studentView.Address,
+                BirthDate = studentView.BirthDate,
+                Email = studentView.Email,
+                EndTime = studentView.EndTime,
+                EntryDate = studentView.EntryDate,
+                FirstName = studentView.FirstName,
+                ImageUrl = pic == string.Empty ? string.Empty : string.Format("~/Content/Images/Students/{0}", pic),
+                LastName = studentView.LastName,
+                Phone = studentView.Phone,
+                PositionID = studentView.PositionID,
+                Positions = studentView.Positions,
+                Remarks = studentView.Remarks,
+                StartTime = studentView.StartTime,
+                StateID = studentView.StateID,
+                State = studentView.State
+            };
+
+            db.Students.Add(student);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.InnerException != null)
+                {
+                    ViewBag.Error = ex.Message;
+                }
+
+                ViewBag.Error = ex.Message;
+
+                return View(studentView);
+            }
+
+            return RedirectToAction("Index");
+
         }
 
         // GET: Students/Edit/5
@@ -88,7 +145,7 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudentID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,ImageUrl,StateID,PositionID,GenderID,Remarks,AttachedFiles")] Student student)
+        public ActionResult Edit([Bind(Include = "StudentID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,ImageUrl,StateID,PositionID,GenderID,Remarks")] Student student)
         {
             if (ModelState.IsValid)
             {

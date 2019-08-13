@@ -148,6 +148,7 @@
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\StatesController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\UploadFilesController.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\EmployeeView.cs" />
     <Compile Include="Models\Gender.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Models\SchoolManagementMVCContext.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentView.cs" />
+    <Compile Include="Models\UploadFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +241,11 @@
     <Content Include="Views\Parents\Details.cshtml" />
     <Content Include="Views\Parents\Edit.cshtml" />
     <Content Include="Views\Parents\Index.cshtml" />
+    <Content Include="Views\UploadFiles\Create.cshtml" />
+    <Content Include="Views\UploadFiles\Delete.cshtml" />
+    <Content Include="Views\UploadFiles\Details.cshtml" />
+    <Content Include="Views\UploadFiles\Edit.cshtml" />
+    <Content Include="Views\UploadFiles\Index.cshtml" />
     <Content Include="Views\Students\Create.cshtml" />
     <Content Include="Views\Students\Delete.cshtml" />
     <Content Include="Views\Students\Details.cshtml" />

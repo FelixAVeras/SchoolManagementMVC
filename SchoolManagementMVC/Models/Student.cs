@@ -9,11 +9,6 @@ namespace SchoolManagementMVC.Models
 {
     public class Student
     {
-        //public Student()
-        //{
-        //    this.Parents = new HashSet<Parent>();
-        //}
-
         [Key]
         public int StudentID { get; set; }
 
@@ -83,13 +78,15 @@ namespace SchoolManagementMVC.Models
         public string Remarks { get; set; }
 
         //[Required]
-        [Display(Name = "Documento(s) Adjuntos")]
-        public string[] AttachedFiles { get; set; }
+        //[Display(Name = "Documento(s) Adjuntos")]
+        //public string[] AttachedFiles { get; set; }
 
         //public virtual DocumentType DocumentType { get; set; }
         public virtual Position Positions { get; set; }
 
         public virtual Gender Gender { get; set; }
         public virtual State State { get; set; }
+
+        public virtual ICollection<UploadFile> UploadFiles { get; set; }
     }
 }

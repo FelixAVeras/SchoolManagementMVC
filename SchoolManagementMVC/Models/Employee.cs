@@ -83,5 +83,7 @@ namespace SchoolManagementMVC.Models
         public virtual Position Positions { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual State State { get; set; }
+
+        public virtual ICollection<UploadFile> UploadFiles { get; set; }
     }
 }

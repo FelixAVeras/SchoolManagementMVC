@@ -62,8 +62,14 @@ namespace SchoolManagementMVC.Controllers
                 return View(employeeView);
             }
 
-            string path = string.Empty;
+            // string path = string.Empty;
+            string path = Server.MapPath("~/Content/Images/Employees");
             string pic = string.Empty;
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
 
             if (employeeView.ImageUrl != null)
             {

@@ -20,6 +20,11 @@ namespace SchoolManagementMVC.Models
         {
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+
         public DbSet<DocumentType> DocumentTypes { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
@@ -28,17 +33,14 @@ namespace SchoolManagementMVC.Models
 
         public DbSet<Position> Positions { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        }
+        public DbSet<Gender> Genders { get; set; }
 
-        public System.Data.Entity.DbSet<SchoolManagementMVC.Models.Gender> Genders { get; set; }
+        public DbSet<Student> Students { get; set; }
 
-        public System.Data.Entity.DbSet<SchoolManagementMVC.Models.Student> Students { get; set; }
+        public DbSet<Parent> Parents { get; set; }
 
-        public System.Data.Entity.DbSet<SchoolManagementMVC.Models.Parent> Parents { get; set; }
+        public DbSet<Course> Courses { get; set; }
 
-        public System.Data.Entity.DbSet<SchoolManagementMVC.Models.Course> Courses { get; set; }
+        public DbSet<UploadFile> UploadFiles { get; set; }
     }
 }
