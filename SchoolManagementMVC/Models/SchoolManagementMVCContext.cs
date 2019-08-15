@@ -42,5 +42,7 @@ namespace SchoolManagementMVC.Models
         public DbSet<Course> Courses { get; set; }
 
         public DbSet<UploadFile> UploadFiles { get; set; }
+
+        public DbSet<FileDetail> FileDetails { get; set; }
     }
 }

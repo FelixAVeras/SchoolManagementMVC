@@ -17,6 +17,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Students.FirstName)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Summary)
+        </th>
         <th></th>
     </tr>
 
@@ -29,9 +32,12 @@
             @Html.DisplayFor(modelItem => item.Students.FirstName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UploadingFileID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UploadingFileID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UploadingFileID })
+            @Html.DisplayFor(modelItem => item.Summary)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UploadFileID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UploadFileID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UploadFileID })
         </td>
     </tr>
 }
