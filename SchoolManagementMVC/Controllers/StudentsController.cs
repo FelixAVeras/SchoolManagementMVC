@@ -51,75 +51,62 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(StudentView studentView)
+        public ActionResult Create(Student student)
         {
-            if (!ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    db.Students.Add(student);
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+
+            //ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", student.GenderID);
+            //ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", student.PositionID);
+            //ViewBag.StateID = new SelectList(db.States, "StateID", "Description", student.StateID);
+            //return View(student);
+
+            if (ModelState.IsValid)
             {
-                //db.Students.Add(student);
-                //db.SaveChanges();   
-                //return RedirectToAction("Index");
-
-                ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", studentView.GenderID);
-                ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", studentView.PositionID);
-                ViewBag.StateID = new SelectList(db.States, "StateID", "Description", studentView.StateID);
-
-                return View(studentView);
-            }
-
-            string path = string.Empty;
-            string pic = string.Empty;
-
-            if (studentView.ImageUrl != null)
-            {
-                pic = Path.GetFileName(studentView.ImageUrl.FileName);
-                path = Path.Combine(Server.MapPath("~/Content/Images/Students"), pic);
-                studentView.ImageUrl.SaveAs(path);
-                using (MemoryStream ms = new MemoryStream())
+                if (student.ImageUrl != null)
                 {
-                    studentView.ImageUrl.InputStream.CopyTo(ms);
-                    byte[] array = ms.GetBuffer();
+                    var pic = Path.GetFileName(student.ImageUrl.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/Images/Students/ProfilePic"), pic);
+                    student.ImageUrl.SaveAs(path);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        student.ImageUrl.InputStream.CopyTo(ms);
+                        byte[] array = ms.GetBuffer();
+                    }
                 }
-            }
 
-            var student = new Student
-            {
-                Address = studentView.Address,
-                BirthDate = studentView.BirthDate,
-                Email = studentView.Email,
-                EndTime = studentView.EndTime,
-                EntryDate = studentView.EntryDate,
-                FirstName = studentView.FirstName,
-                ImageUrl = pic == string.Empty ? string.Empty : string.Format("~/Content/Images/Students/{0}", pic),
-                LastName = studentView.LastName,
-                Phone = studentView.Phone,
-                PositionID = studentView.PositionID,
-                Positions = studentView.Positions,
-                Remarks = studentView.Remarks,
-                StartTime = studentView.StartTime,
-                StateID = studentView.StateID,
-                State = studentView.State
-            };
+                List<UploadFile> uploadFiles = new List<UploadFile>();
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
 
-            db.Students.Add(student);
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        UploadFile uploadFile = new UploadFile()
+                        {
+                            FileName = fileName,
+                            Extension = Path.GetExtension(fileName),
+                            Id = Guid.NewGuid()
+                        };
+                        uploadFiles.Add(uploadFile);
 
-            try
-            {
+                        var path = Path.Combine(Server.MapPath("~/Content/Images/Students/AttachFiles/"), uploadFile.Id + uploadFile.Extension);
+                        file.SaveAs(path);
+                    }
+                }
+
+                student.UploadFiles = uploadFiles;
+                db.Students.Add(student);
                 db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null && ex.InnerException.InnerException != null)
-                {
-                    ViewBag.Error = ex.Message;
-                }
-
-                ViewBag.Error = ex.Message;
-
-                return View(studentView);
+                return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Index");
-
+            return View(student);
         }
 
         // GET: Students/Edit/5
@@ -145,17 +132,47 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudentID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,ImageUrl,StateID,PositionID,GenderID,Remarks")] Student student)
+        public ActionResult Edit(Student student)
         {
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(student).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", student.GenderID);
+            //ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", student.PositionID);
+            //ViewBag.StateID = new SelectList(db.States, "StateID", "Description", student.StateID);
+            //return View(student);
+
             if (ModelState.IsValid)
             {
+
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        UploadFile uploadFile = new UploadFile()
+                        {
+                            FileName = fileName,
+                            Extension = Path.GetExtension(fileName),
+                            Id = Guid.NewGuid(),
+                            StudentID = student.StudentID
+                        };
+                        var path = Path.Combine(Server.MapPath("~/Content/Images/Students/AttachFiles/"), uploadFile.Id + uploadFile.Extension);
+                        file.SaveAs(path);
+
+                        db.Entry(uploadFile).State = EntityState.Added;
+                    }
+                }
+
                 db.Entry(student).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", student.GenderID);
-            ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", student.PositionID);
-            ViewBag.StateID = new SelectList(db.States, "StateID", "Description", student.StateID);
             return View(student);
         }
 

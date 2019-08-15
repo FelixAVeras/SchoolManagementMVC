@@ -148,7 +148,6 @@
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\StatesController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
-    <Compile Include="Controllers\UploadFilesController.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\EmployeeView.cs" />
     <Compile Include="Models\Gender.cs" />
@@ -255,7 +254,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\Employees\" />
-    <Folder Include="Content\Images\Students\" />
+    <Folder Include="Content\Images\Students\AttachFiles\" />
+    <Folder Include="Content\Images\Students\ProfilePic\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

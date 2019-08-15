@@ -9,11 +9,9 @@ namespace SchoolManagementMVC.Models
 {
     public class UploadFile
     {
-        [Key]
-        public int UploadingFileID { get; set; }
-
-        [Display(Name = "Choose File(s)")]
-        public HttpPostedFileBase[] files { get; set; }
+        public Guid Id { get; set; }
+        public string FileName { get; set; }
+        public string Extension { get; set; }
         public int? StudentID { get; set; }
         public int? EmployeeID { get; set; }
 

@@ -58,9 +58,9 @@ namespace SchoolManagementMVC.Models
         [DisplayFormat(DataFormatString = "{0:t}", ApplyFormatInEditMode = true)]
         public DateTime EndTime { get; set; }
 
+        [NotMapped]
         [Display(Name = "Foto de Perfil")]
-        [DataType(DataType.ImageUrl)]
-        public string ImageUrl { get; set; }
+        public HttpPostedFileBase ImageUrl { get; set; }
 
         //public int DocumentTypeID { get; set; }
 

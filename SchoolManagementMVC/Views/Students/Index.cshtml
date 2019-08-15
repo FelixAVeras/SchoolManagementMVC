@@ -4,118 +4,129 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Estudiantes</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Agregar Estudiante", "Create")
 </p>
+<table class="table">
+    <tr>
+        <th>
+            Foto de Perfil
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Gender.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Positions.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State.Description)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EntryDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            Archivos Adjuntos
+        </th>
+        <th></th>
+    </tr>
 
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Positions.Description)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.State.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender.Description)
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>*@
-            @*<th>
-                @Html.DisplayNameFor(model => model.EntryDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.Remarks)
-            </th>
-            <th></th>
-        </tr>
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @if (item.UploadFiles.Count() == 0)
+        {
+            <span>N/A</span>
+        }
+        else
+        {
+            @*<img src="@item.ImageUrl" class="img-rounded" />*@
+            <img src="@Url.Content(item.ImageUrl)" alt="" />
+        }
+    </td>
+    @*<td>
+        @Html.DisplayFor(modelItem => item.Gender.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Positions.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.State.Description)
+    </td>*@
+    <td>
+        @Html.DisplayFor(modelItem => item.FirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.LastName)
+    </td>
+    @*<td>
+        @Html.DisplayFor(modelItem => item.BirthDate)
+    </td>*@
+    <td>
+        @Html.DisplayFor(modelItem => item.Address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Phone)
+    </td>
+    @*<td>
+        @Html.DisplayFor(modelItem => item.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EntryDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.StartTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EndTime)
+    </td>*@
+    <td>
+        @Html.DisplayFor(modelItem => item.Remarks)
+    </td>
+    <td>
+        @if (item.UploadFiles.Count() == 0)
+        {
+            <span>N/A</span>
+        }
+        else
+        {
+            <span>@item.UploadFiles.Count() Archivo(s)</span>
+        }
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.StudentID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.StudentID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.StudentID })
+    </td>
+</tr>
+}
 
-        </thead>
-        <tbody>
-            @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <img src="@Url.Content(item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.FirstName)" class="img-responsive img-rounded profilePic" />
-                    }
-                </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.Positions.Description)
-                </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.State.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BirthDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gender.Description)
-                </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EntryDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
-                </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.StudentID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.StudentID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.StudentID })
-                </td>
-            </tr>
-         }
-        </tbody>
-    </table>
-</div>
-
+</table>
