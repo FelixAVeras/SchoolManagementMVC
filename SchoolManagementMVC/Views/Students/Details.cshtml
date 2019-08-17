@@ -111,7 +111,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ImageUrl)
+            @*@Html.DisplayFor(model => model.ImageUrl)*@
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Url.Content(Model.ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.FirstName)" class="img-responsive img-rounded" />
+            }
+            else
+            {
+                <img src="~/Content/Images/user.png" class="img-responsive img-rounded defaultAvatar" />
+            }
         </dd>
 
         <dt>

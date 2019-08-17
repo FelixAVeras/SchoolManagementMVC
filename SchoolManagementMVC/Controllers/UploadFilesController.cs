@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SchoolManagementMVC.Models;
+using System.IO;
 
 namespace SchoolManagementMVC.Controllers
 {
@@ -49,10 +50,32 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UploadFileID,Summary,StudentID,EmployeeID")] UploadFile uploadFile)
+        public ActionResult Create(UploadFile uploadFile)
         {
             if (ModelState.IsValid)
             {
+                List<FileDetail> fileDetails = new List<FileDetail>();
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        FileDetail fileDetail = new FileDetail()
+                        {
+                            FileName = fileName,
+                            Extension = Path.GetExtension(fileName),
+                            Id = Guid.NewGuid()
+                        };
+                        fileDetails.Add(fileDetail);
+
+                        var path = Path.Combine(Server.MapPath("~/Content/Images/AttachFiles/"), fileDetail.Id + fileDetail.Extension);
+                        file.SaveAs(path);
+                    }
+                }
+
+                uploadFile.FileDetails = fileDetails;
                 db.UploadFiles.Add(uploadFile);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -70,11 +93,14 @@ namespace SchoolManagementMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UploadFile uploadFile = db.UploadFiles.Find(id);
+
+            // UploadFile uploadFile = db.UploadFiles.Find(id);
+            UploadFile uploadFile = db.UploadFiles.Include(s => s.FileDetails).SingleOrDefault(x => x.UploadFileID == id);
             if (uploadFile == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "FirstName", uploadFile.EmployeeID);
             ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", uploadFile.StudentID);
             return View(uploadFile);
@@ -85,14 +111,45 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UploadFileID,Summary,StudentID,EmployeeID")] UploadFile uploadFile)
+        public ActionResult Edit(UploadFile uploadFile)
         {
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(uploadFile).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+
             if (ModelState.IsValid)
             {
+
+                //New Files
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        FileDetail fileDetail = new FileDetail()
+                        {
+                            FileName = fileName,
+                            Extension = Path.GetExtension(fileName),
+                            Id = Guid.NewGuid(),
+                            UploadFileID = uploadFile.UploadFileID
+                        };
+                        var path = Path.Combine(Server.MapPath("~/Content/Images/AttachFiles/"), fileDetail.Id + fileDetail.Extension);
+                        file.SaveAs(path);
+
+                        db.Entry(fileDetail).State = EntityState.Added;
+                    }
+                }
+
                 db.Entry(uploadFile).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "FirstName", uploadFile.EmployeeID);
             ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", uploadFile.StudentID);
             return View(uploadFile);

@@ -1,114 +1,121 @@
-﻿@model IEnumerable<SchoolManagementMVC.Models.Student>
+﻿@*@model PagedList.IPagedList<SchoolManagementMVC.Models.Student>*@
+@model IEnumerable<SchoolManagementMVC.Models.Student>
+
+@*@using PagedList.Mvc;*@
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Estudiantes</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Agregar Estudiante", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Gender.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Positions.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EntryDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Remarks)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gender.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Positions.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.State.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BirthDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EntryDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndTime)
-        </td>
-        <td>
-            @if (!string.IsNullOrEmpty(item.ImageUrl))
-            {
-                <img src="@Url.Content(item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.FirstName)" class="img-responsive img-rounded profilePic" />
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.StudentID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.StudentID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.StudentID })
-        </td>
-    </tr>
+@*@using (Html.BeginForm("Index", "Student", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <div class="form-group">
+                <label class="control-label">Buscar Estudiante:</label>
+                <div class="input-group">
+                    @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                    <span class="input-group-btn">
+                        <button class="btn btn-default">Buscar <i class="fade fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 }
+<hr />*@
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageUrl)
+                    @*Foto de Perfíl*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                    @*@Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter })*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                    @*@Html.ActionLink("Apellidos", "Index", new { sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter })*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthDate)
+                    @*Fecha de Nacimiento*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EntryDate)
+                    @*Fecha de Inscripción*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                    @*Hora de Inicio*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndTime)
+                    @*Hora de Salida*@
+                </th>
 
-</table>
+                <th>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                    @*Comentarios*@
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@Url.Content(item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.FirstName)" class="img-responsive img-rounded profilePic" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/Images/user.png" class="img-responsive img-rounded defaultAvatar" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EntryDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.StudentID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.StudentID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.StudentID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+    
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
+</div>

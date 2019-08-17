@@ -142,6 +142,25 @@ namespace SchoolManagementMVC.Controllers
                 return HttpNotFound();
             }
 
+            var employeeView = new EmployeeView
+            {
+                Address = employee.Address,
+                BirthDate = employee.BirthDate,
+                DocumentType = employee.DocumentType,
+                DocumentNumber = employee.DocumentNumber,
+                Email = employee.Email,
+                EndTime = employee.EndTime,
+                EntryDate = employee.EntryDate,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Phone = employee.Phone,
+                Positions = employee.Positions,
+                Remarks = employee.Remarks,
+                Salary = employee.Salary,
+                StartTime = employee.StartTime,
+                State = employee.State
+            };
+
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", employee.PositionID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", employee.StateID);
@@ -153,18 +172,68 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EmployeeID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,salary,ImageUrl,DocumentTypeID,DocumentNumber,StateID,PositionID,Remarks")] Employee employee)
+        public ActionResult Edit(EmployeeView employeeView)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Entry(employee).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(employeeView);
             }
+
+            string path = Server.MapPath("~/Content/Images/Employees");
+            string pic = string.Empty;
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            if (employeeView.ImageUrl != null)
+            {
+                pic = Path.GetFileName(employeeView.ImageUrl.FileName);
+                path = Path.Combine(Server.MapPath("~/Content/Images/Employees"), pic);
+                employeeView.ImageUrl.SaveAs(path);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    employeeView.ImageUrl.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+            }
+
+            var employee = db.Employees.Find(employeeView.EmployeeID);
+
+            employee.Address = employeeView.Address;
+            employee.BirthDate = employeeView.BirthDate;
+            employee.DocumentTypeID = employeeView.DocumentTypeID;
+            employee.DocumentType = employeeView.DocumentType;
+            employee.DocumentNumber = employeeView.DocumentNumber;
+            employee.Email = employeeView.Email;
+            employee.EndTime = employeeView.EndTime;
+            employee.EntryDate = employeeView.EntryDate;
+            employee.FirstName = employeeView.FirstName;
+            employee.LastName = employeeView.LastName;
+            employee.Phone = employeeView.Phone;
+            employee.PositionID = employeeView.PositionID;
+            employee.Positions = employeeView.Positions;
+            employee.Remarks = employeeView.Remarks;
+            employee.Salary = employeeView.Salary;
+            employee.StartTime = employeeView.StartTime;
+            employee.StateID = employeeView.StateID;
+            employee.State = employeeView.State;
+
+            if(!string.IsNullOrEmpty(pic))
+            {
+                employee.ImageUrl = string.Format("~/Content/Images/Employees/{0}", pic);
+            }
+
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", employee.PositionID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", employee.StateID);
-            return View(employee);
+
+            db.Entry(employee).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+
         }
 
         // GET: Employees/Delete/5

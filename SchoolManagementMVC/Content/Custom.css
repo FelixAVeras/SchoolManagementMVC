@@ -16,3 +16,43 @@
     max-width:100%;
     height:auto;
 }
+
+.defaultAvatar {
+    width: 100px;
+    max-width: 100%;
+}
+
+textarea, textarea.form-control { resize: none !important; }
+
+div#students,
+div#employees {
+    display: none;
+}
+
+ul.fileList {
+    list-style: none;
+}
+
+ul.fileList li {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: #f3f3f3;
+}
+
+ul.fileList li:hover {
+    background: #dcdcdc;
+}
+
+ul.fileList li a {
+    text-decoration: none;
+}
+
+ul.fileList li a.deleteItem {
+    float: right;
+    color: red;
+}
+
+ul.fileList li a.deleteItem:hover {
+    color: darkred;
+}

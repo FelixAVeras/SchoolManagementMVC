@@ -10,7 +10,7 @@ namespace SchoolManagementMVC.Models
         public Guid Id { get; set; }
         public string FileName { get; set; }
         public string Extension { get; set; }
-        public int SupportId { get; set; }
+        public int UploadFileID { get; set; }
         public virtual UploadFile UploadFile { get; set; }
     }
 }

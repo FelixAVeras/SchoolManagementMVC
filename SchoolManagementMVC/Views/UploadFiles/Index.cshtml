@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table table-hover table-condensed">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Employees.FirstName)
@@ -20,26 +20,37 @@
         <th>
             @Html.DisplayNameFor(model => model.Summary)
         </th>
+        <th>Total Files</th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Employees.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Students.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Summary)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UploadFileID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UploadFileID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UploadFileID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employees.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Students.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Summary)
+            </td>
+            <td>
+                @if (item.FileDetails.Count() == 0)
+                {
+                    <span>No File</span>
+                }
+                else
+                {
+                    <span>@item.FileDetails.Count() Archivo(s)</span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UploadFileID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UploadFileID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UploadFileID })
+            </td>
+        </tr>
+    }
 
 </table>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using SchoolManagementMVC.Models;
 
 namespace SchoolManagementMVC.Controllers
@@ -16,10 +17,59 @@ namespace SchoolManagementMVC.Controllers
         private SchoolManagementMVCContext db = new SchoolManagementMVCContext();
 
         // GET: Students
+        // public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         public ActionResult Index()
         {
             var students = db.Students.Include(s => s.Gender).Include(s => s.Positions).Include(s => s.State);
+
+           // ViewBag.CurrentSort = sortOrder;
+           // ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+           // ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+           // if (searchString != null)
+           // {
+           //     page = 1;
+           // }
+           // else
+           // {
+           //     searchString = currentFilter;
+           // }
+           // ViewBag.currentFilter = searchString;
+
+           //students = from s in db.Students
+           //                select s;
+
+           // if(!String.IsNullOrEmpty(searchString))
+           // {
+           //     students = students.Where(
+           //         s => s.LastName.Contains(searchString) ||
+           //              s.FirstName.Contains(searchString)
+           //     );
+
+           // }
+
+           // switch (sortOrder)
+           // {
+           //     case "name_desc":
+           //         students = students.OrderByDescending(s => s.LastName);
+           //         break;
+           //     case "Date":
+           //         students = students.OrderBy(s => s.FirstName);
+           //         break;
+           //     case "date_desc":
+           //         students = students.OrderByDescending(s => s.FirstName);
+           //         break;
+           //     default:
+           //         students = students.OrderBy(s => s.LastName);
+           //         break;
+           // }
+
+            //int pageSize = 10;
+            //int pageNumber = (page ?? 1);
+            //return View(students.ToPagedList(pageNumber, pageSize));
+            
             return View(students.ToList());
+
         }
 
         // GET: Students/Details/5
