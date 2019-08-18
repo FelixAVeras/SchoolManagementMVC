@@ -44,5 +44,7 @@ namespace SchoolManagementMVC.Models
         public DbSet<UploadFile> UploadFiles { get; set; }
 
         public DbSet<FileDetail> FileDetails { get; set; }
+
+        public System.Data.Entity.DbSet<SchoolManagementMVC.Models.Enrollment> Enrollments { get; set; }
     }
 }

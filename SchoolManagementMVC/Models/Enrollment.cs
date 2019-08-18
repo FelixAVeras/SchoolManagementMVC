@@ -18,8 +18,10 @@ namespace SchoolManagementMVC.Models
 
         public int StudentID { get; set; }
         public int CourseID { get; set; }
+        public int StateID { get; set; }
 
         public virtual Student Students { get; set; }
         public virtual Course Course { get; set; }
+        public virtual State State { get; set; }
     }
 }
