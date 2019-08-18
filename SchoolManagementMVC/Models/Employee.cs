@@ -45,13 +45,15 @@ namespace SchoolManagementMVC.Models
         public DateTime EntryDate { get; set; }
 
         [Required]
+        [DataType(DataType.Time)]
         [Display(Name = "Hora de Inicio")]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:HH:mm tt}", ApplyFormatInEditMode = true)]
         public DateTime StartTime { get; set; }
 
         [Required]
+        [DataType(DataType.Time)]
         [Display(Name = "Hora de Salida")]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm tt}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:HH:mm tt}", ApplyFormatInEditMode = true)]
         public DateTime EndTime { get; set; }
 
         [Display(Name = "Salario/Sueldo")]

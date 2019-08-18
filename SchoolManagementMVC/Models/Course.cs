@@ -14,6 +14,10 @@ namespace SchoolManagementMVC.Models
         [Display(Name = "Curso")]
         public string Description { get; set; }
 
-        //public virtual ICollection<Student> Students { get; set; }
+        [Display(Name = "Sección")]
+        public string Section { get; set; }
+
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
+
     }
 }

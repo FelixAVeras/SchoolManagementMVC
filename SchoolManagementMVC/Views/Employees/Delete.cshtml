@@ -139,6 +139,17 @@
             @Html.DisplayFor(model => model.Remarks)
         </dd>
 
+        <dt>
+            @Html.DisplayFor(model => model.ImageUrl)
+        </dt>
+
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Url.Content(Model.ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.FirstName)" class="img-responsive img-rounded profilePic" />
+            }
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {

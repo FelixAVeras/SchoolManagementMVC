@@ -82,7 +82,7 @@ namespace SchoolManagementMVC.Controllers
                     byte[] array = ms.GetBuffer();
                 }
             }
-
+            
             var employee = new Employee
             {
                 Address = employeeView.Address,
@@ -137,6 +137,7 @@ namespace SchoolManagementMVC.Controllers
             }
 
             var employee = db.Employees.Find(id);
+
             if (employee == null)
             {
                 return HttpNotFound();
@@ -144,6 +145,7 @@ namespace SchoolManagementMVC.Controllers
 
             var employeeView = new EmployeeView
             {
+                EmployeeID = employee.EmployeeID,
                 Address = employee.Address,
                 BirthDate = employee.BirthDate,
                 DocumentType = employee.DocumentType,
@@ -164,7 +166,8 @@ namespace SchoolManagementMVC.Controllers
             ViewBag.DocumentTypeID = new SelectList(db.DocumentTypes, "DocumentTypeID", "Description", employee.DocumentTypeID);
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", employee.PositionID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", employee.StateID);
-            return View(employee);
+
+            return View(employeeView);
         }
 
         // POST: Employees/Edit/5

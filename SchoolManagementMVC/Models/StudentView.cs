@@ -8,7 +8,6 @@ namespace SchoolManagementMVC.Models
 {
     public class StudentView
     {
-        [Key]
         public int StudentID { get; set; }
 
         [Required]

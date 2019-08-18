@@ -123,7 +123,7 @@ namespace SchoolManagementMVC.Controllers
                 return View(studentView);
             }
 
-            string path = Server.MapPath("~/Content/Images/Students/ProfilePic");
+            string path = Server.MapPath("~/Content/Images/Students");
             string pic = string.Empty;
 
             if (!Directory.Exists(path))
@@ -134,7 +134,7 @@ namespace SchoolManagementMVC.Controllers
             if (studentView.ImageUrl != null)
             {
                 pic = Path.GetFileName(studentView.ImageUrl.FileName);
-                path = Path.Combine(Server.MapPath("~/Content/Images/Students/ProfilePic"), pic);
+                path = Path.Combine(Server.MapPath("~/Content/Images/Students"), pic);
                 studentView.ImageUrl.SaveAs(path);
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -151,7 +151,7 @@ namespace SchoolManagementMVC.Controllers
                 EndTime = studentView.EndTime,
                 EntryDate = studentView.EntryDate,
                 FirstName = studentView.FirstName,
-                ImageUrl = pic == string.Empty ? string.Empty : string.Format("~/Content/Images/Students/ProfilePic/{0}", pic),
+                ImageUrl = pic == string.Empty ? string.Empty : string.Format("~/Content/Images/Students/{0}", pic),
                 LastName = studentView.LastName,
                 Phone = studentView.Phone,
                 PositionID = studentView.PositionID,
@@ -166,6 +166,9 @@ namespace SchoolManagementMVC.Controllers
 
             try
             {
+                ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", studentView.GenderID);
+                ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", studentView.PositionID);
+                ViewBag.StateID = new SelectList(db.States, "StateID", "Description", studentView.StateID); 
                 db.SaveChanges();
             }
             catch (Exception ex)
@@ -190,15 +193,36 @@ namespace SchoolManagementMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Students.Find(id);
+
+            var student = db.Students.Find(id);
+
             if (student == null)
             {
                 return HttpNotFound();
             }
+
+            var studentView = new StudentView
+            {
+                StudentID = student.StudentID,
+                Address = student.Address,
+                BirthDate = student.BirthDate,
+                Email = student.Email,
+                EndTime = student.EndTime,
+                EntryDate = student.EntryDate,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Phone = student.Phone,
+                Positions = student.Positions,
+                Remarks = student.Remarks,
+                StartTime = student.StartTime,
+                State = student.State
+            };
+
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", student.GenderID);
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", student.PositionID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", student.StateID);
-            return View(student);
+
+            return View(studentView);
         }
 
         // POST: Students/Edit/5
@@ -206,18 +230,65 @@ namespace SchoolManagementMVC.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudentID,FirstName,LastName,BirthDate,Address,Phone,Email,EntryDate,StartTime,EndTime,ImageUrl,StateID,PositionID,GenderID,Remarks")] Student student)
+        public ActionResult Edit(StudentView studentView)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Entry(student).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(studentView);
+                
             }
+
+            string path = Server.MapPath("~/Content/Images/Students");
+            string pic = string.Empty;
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            if (studentView.ImageUrl != null)
+            {
+                pic = Path.GetFileName(studentView.ImageUrl.FileName);
+                path = Path.Combine(Server.MapPath("~/Content/Images/Students"), pic);
+                studentView.ImageUrl.SaveAs(path);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    studentView.ImageUrl.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+            }
+
+            var student = db.Employees.Find(studentView.StudentID);
+
+            student.Address = studentView.Address;
+            student.BirthDate = studentView.BirthDate;
+            student.Email = studentView.Email;
+            student.EndTime = studentView.EndTime;
+            student.EntryDate = studentView.EntryDate;
+            student.FirstName = studentView.FirstName;
+            student.LastName = studentView.LastName;
+            student.Phone = studentView.Phone;
+            student.PositionID = studentView.PositionID;
+            student.Positions = studentView.Positions;
+            student.Remarks = studentView.Remarks;
+            student.StartTime = studentView.StartTime;
+            student.StateID = studentView.StateID;
+            student.State = studentView.State;
+
+            if (!string.IsNullOrEmpty(pic))
+            {
+                student.ImageUrl = string.Format("~/Content/Images/Students/{0}", pic);
+            }
+
             ViewBag.GenderID = new SelectList(db.Genders, "GenderID", "Description", student.GenderID);
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", student.PositionID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", student.StateID);
-            return View(student);
+            
+
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         // GET: Students/Delete/5
