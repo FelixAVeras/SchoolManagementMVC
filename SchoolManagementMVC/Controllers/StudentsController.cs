@@ -258,7 +258,7 @@ namespace SchoolManagementMVC.Controllers
                 }
             }
 
-            var student = db.Employees.Find(studentView.StudentID);
+            var student = db.Students.Find(studentView.StudentID);
 
             student.Address = studentView.Address;
             student.BirthDate = studentView.BirthDate;
