@@ -28,7 +28,9 @@
     <div class="form-group">
         @Html.LabelFor(model => model.StudentID, "StudentID", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("StudentID", null, htmlAttributes: new { @class = "form-control" })
+            @*@Html.DropDownList("StudentID", null, htmlAttributes: new { @class = "form-control" })*@
+            @*@Html.DropDownList(m => m.StudentID, new SelectList(Model.Students, "StudentID", "FullName"), "-- Seleccione Estudiante--")*@
+            @Html.DropDownListFor(m => m.StudentID, (SelectList)ViewBag.Students, "Seleccionar Estudiante", new { @class = "form-control"})
             @Html.ValidationMessageFor(model => model.StudentID, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -36,7 +38,9 @@
     <div class="form-group">
         @Html.LabelFor(model => model.EmployeeID, "EmployeeID", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("EmployeeID", null, htmlAttributes: new { @class = "form-control" })
+            @*@Html.DropDownList("EmployeeID", null, htmlAttributes: new { @class = "form-control" })*@
+            @*@Html.DropDownList(m => m.EmployeeID, new SelectList(Model.Employees, "EmployeeID", "FullName"), "-- Seleccione Empleado--")*@
+            @Html.DropDownListFor(m => m.EmployeeID, (SelectList)ViewBag.Employees, "Seleccionar Empleado", new { @class = "form-control"})
             @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -44,7 +48,6 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Summary, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @*@Html.TextAreaFor(model => model.Summary, new { htmlAttributes = new { @class = "form-control" } })*@
             <textarea class="form-control" name="Summary"></textarea>
             @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
         </div>
