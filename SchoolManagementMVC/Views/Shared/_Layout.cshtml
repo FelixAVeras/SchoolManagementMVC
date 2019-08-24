@@ -7,10 +7,9 @@
     <title>@ViewBag.Title - School Management</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @*<link href="https://bootswatch.com/3/readable/bootstrap.min.css" rel="stylesheet" />*@
     <link href="https://bootswatch.com/3/flatly/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700,700i&display=swap" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet"/>
     <link href="~/Content/Custom.css" rel="stylesheet"/>
 </head>
 <body>
@@ -26,10 +25,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
-                    <li>@Html.ActionLink("Padres/Tutores", "Index", "Parents")</li>
-                    <li>@Html.ActionLink("Empleados", "Index", "Employees")</li>
+                    <li>@Html.ActionLink("Inicio", "Index", "Home", null,  new { @class = "fa fa-home" })</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Personas <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Estudiantes", "Index", "Students")</li>
+                            <li>@Html.ActionLink("Padres/Tutores", "Index", "Parents")</li>
+                            <li role="separator" class="divider"></li>
+                            <li>@Html.ActionLink("Empleados", "Index", "Employees")</li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Acciones <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -46,6 +51,19 @@
                         </ul>
                     </li>
                     <li><a href="#">Finanzas</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><i class="fa fa-bell"></i></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">nombreUsuario <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
