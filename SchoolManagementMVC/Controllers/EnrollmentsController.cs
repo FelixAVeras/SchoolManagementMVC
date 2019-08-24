@@ -40,7 +40,7 @@ namespace SchoolManagementMVC.Controllers
         public ActionResult Create()
         {
             ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Description");
-            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName");
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FullName");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace SchoolManagementMVC.Controllers
             }
 
             ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Description", enrollment.CourseID);
-            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", enrollment.StudentID);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FullName", enrollment.StudentID);
             return View(enrollment);
         }
 
@@ -76,7 +76,7 @@ namespace SchoolManagementMVC.Controllers
                 return HttpNotFound();
             }
             ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Description", enrollment.CourseID);
-            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", enrollment.StudentID);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FullName", enrollment.StudentID);
             return View(enrollment);
         }
 
@@ -94,7 +94,7 @@ namespace SchoolManagementMVC.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Description", enrollment.CourseID);
-            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", enrollment.StudentID);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FullName", enrollment.StudentID);
             return View(enrollment);
         }
 

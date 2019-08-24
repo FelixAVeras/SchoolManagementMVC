@@ -27,11 +27,6 @@ body {
 
 textarea, textarea.form-control { resize: none !important; }
 
-div#students,
-div#employees {
-    display: none;
-}
-
 ul.fileList {
     list-style: none;
 }
@@ -59,3 +54,7 @@ ul.fileList li a.deleteItem {
 ul.fileList li a.deleteItem:hover {
     color: darkred;
 }
+
+/*div.form-group#students, div.form-group#employees {
+    display: none;
+}*/

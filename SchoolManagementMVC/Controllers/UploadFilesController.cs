@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SchoolManagementMVC.Models;
-using System.IO;
 
 namespace SchoolManagementMVC.Controllers
 {
@@ -18,7 +18,7 @@ namespace SchoolManagementMVC.Controllers
         // GET: UploadFiles
         public ActionResult Index()
         {
-            var uploadFiles = db.UploadFiles.Include(u => u.Employees).Include(u => u.Students);
+            var uploadFiles = db.UploadFiles.Include(u => u.Employees).Include(u => u.Position).Include(u => u.Students);
             return View(uploadFiles.ToList());
         }
 
@@ -40,8 +40,9 @@ namespace SchoolManagementMVC.Controllers
         // GET: UploadFiles/Create
         public ActionResult Create()
         {
-            ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "FirstName");
-            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName");
+            ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "FullName");
+            ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description");
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FullName");
             return View();
         }
 
@@ -81,6 +82,7 @@ namespace SchoolManagementMVC.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", uploadFile.PositionID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "FirstName", uploadFile.EmployeeID);
             ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", uploadFile.StudentID);
             return View(uploadFile);
@@ -93,16 +95,14 @@ namespace SchoolManagementMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            // UploadFile uploadFile = db.UploadFiles.Find(id);
-            UploadFile uploadFile = db.UploadFiles.Include(s => s.FileDetails).SingleOrDefault(x => x.UploadFileID == id);
+            UploadFile uploadFile = db.UploadFiles.Find(id);
             if (uploadFile == null)
             {
                 return HttpNotFound();
             }
-
-            ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "FirstName", uploadFile.EmployeeID);
-            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", uploadFile.StudentID);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "FullName", uploadFile.EmployeeID);
+            ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", uploadFile.PositionID);
+            ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FullName", uploadFile.StudentID);
             return View(uploadFile);
         }
 
@@ -113,13 +113,6 @@ namespace SchoolManagementMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UploadFile uploadFile)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    db.Entry(uploadFile).State = EntityState.Modified;
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
-
             if (ModelState.IsValid)
             {
 
@@ -150,6 +143,7 @@ namespace SchoolManagementMVC.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Description", uploadFile.PositionID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "FirstName", uploadFile.EmployeeID);
             ViewBag.StudentID = new SelectList(db.Students, "StudentID", "FirstName", uploadFile.StudentID);
             return View(uploadFile);

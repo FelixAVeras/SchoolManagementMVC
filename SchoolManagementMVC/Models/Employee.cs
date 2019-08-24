@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -20,6 +21,9 @@ namespace SchoolManagementMVC.Models
         [Display(Name = "Apellido(s)")]
         [StringLength(20, ErrorMessage = "El campo {0} Permite solo {1}  y {2}.", MinimumLength = 2)]
         public string LastName { get; set; }
+
+        [NotMapped]
+        public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
         [Required]
         [DataType(DataType.Date)]

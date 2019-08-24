@@ -9,20 +9,26 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table table-hover table-condensed">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Employees.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Students.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Summary)
-        </th>
-        <th>Total Files</th>
-        <th></th>
-    </tr>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Employees.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Students.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Summary)
+            </th>
+            <th>
+                Archivo(s)
+            </th>
+            <th></th>
+        </tr>
 
     @foreach (var item in Model) {
         <tr>
@@ -31,6 +37,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Students.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Summary)
@@ -42,15 +51,17 @@
                 }
                 else
                 {
-                    <span>@item.FileDetails.Count() Archivo(s)</span>
+                    <span>@item.FileDetails.Count() File(s)</span>
                 }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.UploadFileID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.UploadFileID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.UploadFileID })
+                @Html.ActionLink("Edit", "Edit", new { id=item.UploadFileID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.UploadFileID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.UploadFileID })
             </td>
         </tr>
     }
 
-</table>
+    </table>
+
+</div>

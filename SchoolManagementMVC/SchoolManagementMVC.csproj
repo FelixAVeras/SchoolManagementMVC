@@ -251,11 +251,6 @@
     <Content Include="Views\Parents\Details.cshtml" />
     <Content Include="Views\Parents\Edit.cshtml" />
     <Content Include="Views\Parents\Index.cshtml" />
-    <Content Include="Views\UploadFiles\Create.cshtml" />
-    <Content Include="Views\UploadFiles\Delete.cshtml" />
-    <Content Include="Views\UploadFiles\Details.cshtml" />
-    <Content Include="Views\UploadFiles\Edit.cshtml" />
-    <Content Include="Views\UploadFiles\Index.cshtml" />
     <Content Include="Views\Students\Create.cshtml" />
     <Content Include="Views\Students\Delete.cshtml" />
     <Content Include="Views\Students\Details.cshtml" />
@@ -266,6 +261,11 @@
     <Content Include="Views\Enrollments\Details.cshtml" />
     <Content Include="Views\Enrollments\Edit.cshtml" />
     <Content Include="Views\Enrollments\Index.cshtml" />
+    <Content Include="Views\UploadFiles\Create.cshtml" />
+    <Content Include="Views\UploadFiles\Delete.cshtml" />
+    <Content Include="Views\UploadFiles\Details.cshtml" />
+    <Content Include="Views\UploadFiles\Edit.cshtml" />
+    <Content Include="Views\UploadFiles\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
