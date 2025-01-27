@@ -4,10 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SchoolManagementMVC.Models
 {
-    public class SchoolManagementMVCContext : DbContext
+    public class SchoolManagementMVCContext : IdentityDbContext<ApplicationUser>
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 

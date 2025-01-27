@@ -23,7 +23,7 @@ namespace SchoolManagementMVC.Models
         public string LastName { get; set; }
 
         [NotMapped]
-        public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
+        public string FullName =>  $"{FirstName} {LastName}";
 
         [Required]
         [DataType(DataType.Date)]
@@ -50,11 +50,13 @@ namespace SchoolManagementMVC.Models
 
         [Required]
         [Display(Name = "Hora de Inicio")]
+        [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:t}", ApplyFormatInEditMode = true)]
         public DateTime StartTime { get; set; }
 
         [Required]
         [Display(Name = "Hora de Salida")]
+        [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:t}", ApplyFormatInEditMode = true)]
         public DateTime EndTime { get; set; }
 
